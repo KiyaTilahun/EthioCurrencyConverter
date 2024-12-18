@@ -4,17 +4,15 @@ namespace Kiyatilahun\ConvertCurrency;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
-use InvalidArgumentException;
 use Illuminate\Support\Str;
-use function Pest\Laravel\json;
 
 class ConvertCurrency
 {
-
     private $client;
+
     public function __construct()
     {
-        $this->client = new Client();
+        $this->client = new Client;
     }
 
     public function convert(float $amount, string $fromCurrency, string $toCurrency)
@@ -25,6 +23,7 @@ class ConvertCurrency
         $data = json_decode($res->getBody()->getContents(), true);
         if (isset($data[$fromCurrency][$toCurrency])) {
             $exchangeRate = $data[$fromCurrency][$toCurrency];
+
             return $amount * $exchangeRate;
         } else {
             echo "Exchange rate data for {$toCurrency} not available.";
@@ -34,17 +33,18 @@ class ConvertCurrency
     public function getAllCurrencies(): JsonResponse
     {
 
-        $client = new Client();
+        $client = new Client;
         $res = $client->request('GET', 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json', []);
         $data = json_decode($res->getBody()->getContents(), true);
 
         return response()->json($data);
     }
+
     public function getExchange($basecurrency): JsonResponse
     {
 
         $basecurrency = Str::lower($basecurrency);
-        $client = new Client();
+        $client = new Client;
         $res = $client->request('GET', "https://latest.currency-api.pages.dev/v1/currencies/{$basecurrency}.json", []);
         $data = json_decode($res->getBody()->getContents(), true);
 

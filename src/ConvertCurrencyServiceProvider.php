@@ -2,10 +2,9 @@
 
 namespace Kiyatilahun\ConvertCurrency;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Kiyatilahun\ConvertCurrency\Commands\ConvertCurrencyCommand;
-use Spatie\LaravelPackageTools\Commands\InstallCommand;
 
 class ConvertCurrencyServiceProvider extends PackageServiceProvider
 {
@@ -33,12 +32,13 @@ class ConvertCurrencyServiceProvider extends PackageServiceProvider
             $config = realpath(__DIR__.'/../config/ethiocurrencyconverter.php');
 
             $this->publishes([
-                $config => config_path('ethiocurrencyconverter.php')
+                $config => config_path('ethiocurrencyconverter.php'),
             ]);
 
         }
     }
-      /**
+
+    /**
      * Register the application services.
      */
     public function register()
@@ -50,7 +50,6 @@ class ConvertCurrencyServiceProvider extends PackageServiceProvider
         $this->app->singleton(\Kiyatilahun\ConvertCurrency\ConvertCurrency::class, function () {
             return new ConvertCurrency;
         });
-
 
     }
 }

@@ -8,7 +8,6 @@ it('can test', function () {
 it('converts currency correctly', function () {
     // Arrange: Mock the ConvertCurrency facade
 
-
     // Act: Call the convert method
     // $result = ConvertCurrency::convert(100, 'USD', 'EUR');
     // $result = ConvertCurrency::getAllCurrencies();
