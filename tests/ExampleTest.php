@@ -11,8 +11,11 @@ it('converts currency correctly', function () {
 
     // Act: Call the convert method
     // $result = ConvertCurrency::convert(100, 'USD', 'EUR');
-    $result = ConvertCurrency::getAllCurrencies();
-     dd($result);
+    // $result = ConvertCurrency::getAllCurrencies();
+    //  dd($result);
+    // $result = ConvertCurrency::getExchange('USD');
+    $result = ConvertCurrency::convert(100, 'usd', 'eur');
+    dd($result);
 
     // Assert: Verify the result
     expect($result)->toBe(85.0);

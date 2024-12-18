@@ -5,65 +5,49 @@ namespace Kiyatilahun\ConvertCurrency;
 use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
 use InvalidArgumentException;
-
+use Illuminate\Support\Str;
 use function Pest\Laravel\json;
 
-class ConvertCurrency {
+class ConvertCurrency
+{
 
-     /**
-     * Predefined exchange rates.
-     * The rates are defined as ['FROM_CURRENCY' => ['TO_CURRENCY' => RATE]].
-     *
-     * @var array
-     */
-    protected $exchangeRates = [
-        'USD' => [
-            'EUR' => 0.85,
-            'GBP' => 0.75,
-            // Add more target currencies as needed
-        ],
-        'EUR' => [
-            'USD' => 1.18,
-            'GBP' => 0.88,
-            // Add more target currencies as needed
-        ],
-        // Add more base currencies as needed
-    ];
-
-    /**
-     * Convert an amount from one currency to another using predefined exchange rates.
-     *
-     * @param float $amount
-     * @param string $fromCurrency
-     * @param string $toCurrency
-     * @return float
-     * @throws InvalidArgumentException if the currency pair is not supported
-     */
-    public function convert(float $amount, string $fromCurrency, string $toCurrency): float
+    private $client;
+    public function __construct()
     {
-        $fromCurrency = strtoupper($fromCurrency);
-        $toCurrency = strtoupper($toCurrency);
-
-        // Check if the base currency and target currency are supported
-        if (!isset($this->exchangeRates[$fromCurrency][$toCurrency])) {
-            throw new InvalidArgumentException("Conversion from {$fromCurrency} to {$toCurrency} is not supported.");
-        }
-
-        // Retrieve the exchange rate
-        $rate = $this->exchangeRates[$fromCurrency][$toCurrency];
-
-        // Calculate the converted amount
-        $convertedAmount = $amount * $rate;
-
-        return round($convertedAmount, 2);
+        $this->client = new Client();
     }
-    public function getAllCurrencies() : JsonResponse {
+
+    public function convert(float $amount, string $fromCurrency, string $toCurrency)
+    {
+        $fromCurrency = strtolower($fromCurrency);
+        $toCurrency = strtolower($toCurrency);
+        $res = $this->client->request('GET', "https://latest.currency-api.pages.dev/v1/currencies/{$fromCurrency}.json", []);
+        $data = json_decode($res->getBody()->getContents(), true);
+        if (isset($data[$fromCurrency][$toCurrency])) {
+            $exchangeRate = $data[$fromCurrency][$toCurrency];
+            return $amount * $exchangeRate;
+        } else {
+            echo "Exchange rate data for {$toCurrency} not available.";
+        }
+    }
+
+    public function getAllCurrencies(): JsonResponse
+    {
 
         $client = new Client();
-        $res = $client->request('GET', 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json', [
-]);
+        $res = $client->request('GET', 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json', []);
         $data = json_decode($res->getBody()->getContents(), true);
 
-return response()->json($data);
+        return response()->json($data);
+    }
+    public function getExchange($basecurrency): JsonResponse
+    {
+
+        $basecurrency = Str::lower($basecurrency);
+        $client = new Client();
+        $res = $client->request('GET', "https://latest.currency-api.pages.dev/v1/currencies/{$basecurrency}.json", []);
+        $data = json_decode($res->getBody()->getContents(), true);
+
+        return response()->json($data);
     }
 }
