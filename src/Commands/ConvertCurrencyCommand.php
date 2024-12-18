@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Kiyatilahun\ConvertCurrency\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class ConvertCurrencyCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'ethiocurrencyconverter';
 
     public $description = 'My command';
 

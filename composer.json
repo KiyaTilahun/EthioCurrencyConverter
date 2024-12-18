@@ -1,22 +1,22 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "kiyatilahun/ethiocurrencyconverter",
+    "description": "This is my package ethiocurrencyconverter",
     "keywords": [
-        ":vendor_name",
+        "kiyatilahun",
         "laravel",
-        ":package_slug"
+        "ethiocurrencyconverter"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/kiyatilahun/ethiocurrencyconverter",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "kiyatilahun",
+            "email": "kiyatilahun0@gmail.com",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": "^8.4",
+        "php": "^8.0",
         "spatie/laravel-package-tools": "^1.16",
         "illuminate/contracts": "^10.0||^11.0"
     },
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Kiyatilahun\\ConvertCurrency\\": "src/",
+            "Kiyatilahun\\ConvertCurrency\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Kiyatilahun\\ConvertCurrency\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +63,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Kiyatilahun\\ConvertCurrency\\ConvertCurrencyServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "ConvertCurrency": "Kiyatilahun\\ConvertCurrency\\Facades\\ConvertCurrency"
             }
         }
     },
