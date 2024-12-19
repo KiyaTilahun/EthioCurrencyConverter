@@ -2,29 +2,29 @@
 
 namespace Kiyatilahun\ConvertCurrency;
 
+use Illuminate\Support\ServiceProvider;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class ConvertCurrencyServiceProvider extends PackageServiceProvider
+class ConvertCurrencyServiceProvider extends ServiceProvider
 {
-    public function configurePackage(Package $package): void
-    {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
-        $package
-            ->name('ethiocurrencyconverter')
-            ->hasInstallCommand(function (InstallCommand $command) {
-                $command
-                    ->publishConfigFile()
-                    ->publishAssets()
-                    ->publishMigrations()
-                    ->copyAndRegisterServiceProviderInApp();
-            });
-    }
+    // public function configurePackage(Package $package): void
+    // {
+    //     /*
+    //      * This class is a Package Service Provider
+    //      *
+    //      * More info: https://github.com/spatie/laravel-package-tools
+    //      */
+    //     $package
+    //         ->name('ethiocurrencyconverter')
+    //         ->hasInstallCommand(function (InstallCommand $command) {
+    //             $command
+    //                 ->publishConfigFile()
+    //                 ->publishAssets()
+    //                 ->publishMigrations()
+    //                 ->copyAndRegisterServiceProviderInApp();
+    //         });
+    // }
 
     public function boot()
     {
@@ -47,9 +47,11 @@ class ConvertCurrencyServiceProvider extends PackageServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/ethiocurrencyconverter.php', 'ethiocurrencyconverter');
 
         // Register the main class to use with the facade
-        $this->app->singleton(\Kiyatilahun\ConvertCurrency\ConvertCurrency::class, function () {
+        $this->app->singleton('convert_currency', function ($app) {
             return new ConvertCurrency;
         });
+
+        $this->app->alias('convert_currency', "KiyaTilahun\ConvertCurrency\ConvertCurrency");
 
     }
 }
