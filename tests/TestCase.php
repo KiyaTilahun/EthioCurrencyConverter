@@ -3,8 +3,8 @@
 namespace Kiyatilahun\ConvertCurrency\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Kiyatilahun\ConvertCurrency\ConvertCurrencyServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

@@ -17,7 +17,7 @@ it('converts currency correctly', function () {
     ]);
 
     // Act: Call the convertAmount method
-    $amount ='130.0';
+    $amount = '130.0';
     $fromCurrency = 'USD';
     $toCurrency = 'EUR';
     $response = ConvertCurrency::convertAmount($amount, $fromCurrency, $toCurrency);
@@ -30,14 +30,14 @@ it('converts currency correctly', function () {
     expect($data['data']['amount'])->toBe($amount);
     expect($data['data']['from_currency'])->toBe(strtolower($fromCurrency));
     expect($data['data']['to_currency'])->toBe(strtolower($toCurrency));
-    expect($data['data']['converted_amount'])->toBe($data['data']['exchange_rate']*$data['data']['amount']);
+    expect($data['data']['converted_amount'])->toBe($data['data']['exchange_rate'] * $data['data']['amount']);
 });
 it('fetches all currency symbols successfully without making a real HTTP request', function () {
     Http::fake([
         'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json' => Http::response([
             'usd' => 'USD',
             'eur' => 'EUR',
-        ], 200)
+        ], 200),
     ]);
 
     $response = ConvertCurrency::getAllCurrenciesSymbol();
