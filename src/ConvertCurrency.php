@@ -46,7 +46,7 @@ class ConvertCurrency
                 ],
             ]);
         } else {
-            echo "Exchange rate data for {$toCurrency} not available.";
+            return response()->json("No Response",404);
         }
     }
 
@@ -57,10 +57,15 @@ class ConvertCurrency
      */
     public function getAllCurrenciesSymbol(): JsonResponse
     {
+        try{
         $client = new Client();
         $res = $client->request('GET', 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json', []);
         $data = json_decode($res->getBody()->getContents());
         return response()->json($data);
+        }
+        catch (\Exception $e){
+            return response()->json("No Response",404);
+        }
     }
 
     /**
@@ -88,7 +93,9 @@ class ConvertCurrency
                 ],
             ]);
         } else {
-            echo "Exchange rate data for {$toCurrency} not available.";
+            //
+
+            return response()->json("No Response",404);
         }
     }
 
@@ -118,7 +125,7 @@ class ConvertCurrency
                 ],
             ]);
         } else {
-            echo "Exchange rate data for {$toCurrency} not available.";
+            return response()->json("No Response",404);
         }
     }
 
