@@ -5,15 +5,6 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/kiyatilahun/ethiocurrencyconverter/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/kiyatilahun/ethiocurrencyconverter/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/kiyatilahun/ethiocurrencyconverter.svg?style=flat-square)](https://packagist.org/packages/kiyatilahun/ethiocurrencyconverter)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/EthioCurrencyConverter.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/EthioCurrencyConverter)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
 
@@ -24,29 +15,33 @@ composer require kiyatilahun/ethiocurrencyconverter
 ```
 
 ## Usage
-
+To convert From one currency to another  
 ```php
-$convertCurrency = new Kiyatilahun\ConvertCurrency();
-echo $convertCurrency->echoPhrase('Hello, Kiyatilahun!');
+ConvertCurrency::convertAmount($amount, $fromcurrency, $tocurrency);
+ConvertCurrency::convertAmount(100, 'usd', 'etb');
+```
+To get all currency symbols
+```php
+ConvertCurrency::getAllCurrenciesSymbol();
+```
+To get all currency symbols
+```php
+ConvertCurrency::getAllCurrenciesSymbol();
 ```
 
-## Testing
-
-```bash
-composer test
+To get the exchange rate between two currencies
+```php
+ConvertCurrency::getExchangeRate($fromcurrency, $tocurrency);
+ConvertCurrency::getExchangeRate('usd', 'etb');
 ```
 
-## Changelog
+To get the exchange rate from Ethiopian Birr (ETB) to another currency
+```php
+ConvertCurrency::getBirrExchangeRate($tocurrency);
+ConvertCurrency::getBirrExchangeRate('usd');
+```
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
