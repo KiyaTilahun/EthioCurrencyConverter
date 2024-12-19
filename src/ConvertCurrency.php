@@ -4,50 +4,122 @@ namespace Kiyatilahun\ConvertCurrency;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Str;
 
 class ConvertCurrency
 {
     private $client;
 
-    public function __construct()
-    {
-        $this->client = new Client;
-    }
+    public function __construct() {}
 
-    public function convert(float $amount, string $fromCurrency, string $toCurrency)
+    /**
+     * convert
+     *
+     * @param  mixed  $amount
+     * @param  mixed  $fromCurrency
+     * @param  mixed  $toCurrency
+     * @return void
+     */
+    public static function convertAmount(float $amount, string $fromCurrency, string $toCurrency): JsonResponse
     {
         $fromCurrency = strtolower($fromCurrency);
         $toCurrency = strtolower($toCurrency);
-        $res = $this->client->request('GET', "https://latest.currency-api.pages.dev/v1/currencies/{$fromCurrency}.json", []);
+        $client = new Client;
+        $res = $client->request('GET', "https://latest.currency-api.pages.dev/v1/currencies/{$fromCurrency}.json", []);
         $data = json_decode($res->getBody()->getContents(), true);
         if (isset($data[$fromCurrency][$toCurrency])) {
             $exchangeRate = $data[$fromCurrency][$toCurrency];
 
-            return $amount * $exchangeRate;
+            return response()->json([
+                'success' => true,
+                'message' => 'Conversion successful',
+                'data' => [
+                    'amount' => number_format($amount, 1),
+                    'from_currency' => $fromCurrency,
+                    'to_currency' => $toCurrency,
+                    'exchange_rate' => $exchangeRate,
+                    'converted_amount' => $amount * $exchangeRate,
+                ],
+            ]);
         } else {
-            echo "Exchange rate data for {$toCurrency} not available.";
+            return response()->json('No Response', 404);
         }
     }
 
-    public function getAllCurrencies(): JsonResponse
+    /**
+     * getAllCurrenciesSymbol
+     */
+    public function getAllCurrenciesSymbol(): JsonResponse
     {
+        try {
+            $client = new Client;
+            $res = $client->request('GET', 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json', []);
+            $data = json_decode($res->getBody()->getContents());
 
-        $client = new Client;
-        $res = $client->request('GET', 'https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json', []);
-        $data = json_decode($res->getBody()->getContents(), true);
-
-        return response()->json($data);
+            return response()->json($data);
+        } catch (\Exception $e) {
+            return response()->json('No Response', 404);
+        }
     }
 
-    public function getExchange($basecurrency): JsonResponse
+    /**
+     * getExchangeRates
+     *
+     * @param  mixed  $basecurrency
+     */
+    public function getExchangeRate(string $fromCurrency, $toCurrency): JsonResponse
     {
-
-        $basecurrency = Str::lower($basecurrency);
+        $fromCurrency = strtolower($fromCurrency);
+        $toCurrency = strtolower($toCurrency);
         $client = new Client;
-        $res = $client->request('GET', "https://latest.currency-api.pages.dev/v1/currencies/{$basecurrency}.json", []);
+        $res = $client->request('GET', "https://latest.currency-api.pages.dev/v1/currencies/{$fromCurrency}.json", []);
         $data = json_decode($res->getBody()->getContents(), true);
+        if (isset($data[$fromCurrency][$toCurrency])) {
+            $exchangeRate = $data[$fromCurrency][$toCurrency];
 
-        return response()->json($data);
+            return response()->json([
+                'success' => true,
+                'message' => 'Conversion successful',
+                'data' => [
+                    'from_currency' => $fromCurrency,
+                    'to_currency' => $toCurrency,
+                    'exchange_rate' => $exchangeRate,
+                ],
+            ]);
+        } else {
+            //
+
+            return response()->json('No Response', 404);
+        }
+    }
+
+    /**
+     * getBirrExchange
+     *
+     * @param  mixed  $toCurrency
+     * @return void
+     */
+    public function getBirrExchangeRate($toCurrency)
+    {
+        $toCurrency = strtolower($toCurrency);
+
+        $client = new Client;
+        $res = $client->request('GET', 'https://latest.currency-api.pages.dev/v1/currencies/etb.json', []);
+        $data = json_decode($res->getBody()->getContents(), true);
+        if (isset($data['etb'][$toCurrency])) {
+            $exchangeRate = $data['etb'][$toCurrency];
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Conversion successful',
+                'data' => [
+                    'from_currency' => 'etb',
+                    'to_currency' => $toCurrency,
+                    'exchange_rate' => $exchangeRate,
+
+                ],
+            ]);
+        } else {
+            return response()->json('No Response', 404);
+        }
     }
 }
