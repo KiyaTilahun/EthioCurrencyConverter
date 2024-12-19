@@ -11,6 +11,6 @@ class ConvertCurrency extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Kiyatilahun\ConvertCurrency\ConvertCurrency::class;
+        return 'convert_currency';
     }
 }
